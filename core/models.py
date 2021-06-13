@@ -2,7 +2,8 @@ from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
-
+class Preferencias(models.Model):
+    preferencia = models.CharField(max_length=100)
 
 # Create your models here.
 class tipoConta(models.Model):
@@ -59,6 +60,13 @@ class Imagens_publicacao(models.Model):
         return self.data_criacao.strftime('%d/%m/%Y')
 
 
+
+class Preferencia_publicacao(models.Model):
+    publicacao =  models.ForeignKey(Preferencias,models.CASCADE)
+
+    usuario =  models.ForeignKey(User,models.CASCADE)
+    def get_data_evento(self):
+        return self.data_criacao.strftime('%d/%m/%Y')
 class Perfil(models.Model):
     imagem = models.ImageField(upload_to='static/img')
     usuario =  models.ForeignKey(User,models.CASCADE)
