@@ -38,10 +38,17 @@ class Conquista(models.Model):
     texto = models.CharField(max_length=1000)
     imagem = models.ImageField(upload_to='static/img')
 
-    usuario =  models.ForeignKey(User,models.CASCADE)
     def get_data_evento(self):
         return self.data_criacao.strftime('%d/%m/%Y')
 
+class Conquista_Usuario(models.Model):
+    conquista =  models.ForeignKey(Conquista,models.CASCADE)
+    usuario =  models.ForeignKey(User,models.CASCADE)
+
+
+
+    def get_data_evento(self):
+        return self.data_criacao.strftime('%d/%m/%Y')
 class Imagens_publicacao(models.Model):
     texto = models.CharField(max_length=200)
     imagem = models.ImageField(upload_to='static/img')
@@ -56,4 +63,18 @@ class Perfil(models.Model):
     imagem = models.ImageField(upload_to='static/img')
     usuario =  models.ForeignKey(User,models.CASCADE)
 
+
+class Curtida(models.Model):
+    publicacao =  models.ForeignKey(Publicacao,models.CASCADE)
+    usuario =  models.ForeignKey(User,models.CASCADE)
+    gostou = models.IntegerField()
+
+class Respostas(models.Model):
+    texto = models.CharField(max_length=1000)
+    publicacao =  models.ForeignKey(Publicacao,models.CASCADE)
+    curtidas = models.IntegerField()
+    nao_gostei = models.IntegerField()
+    usuario = models.ForeignKey(User, models.CASCADE)
+    data_criacao = models.DateTimeField(auto_now=True)
+    pra_quem     = models.IntegerField()
 

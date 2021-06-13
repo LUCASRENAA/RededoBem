@@ -29,6 +29,8 @@ urlpatterns = [
                   path('inicio/',views.inicio),
                   path('inicio2/', views.inicio2),
                   path('inicio/perfil/submit', views.submit_perfil),
+                  path('inicio/publicacao/curtir/<id_publicacao>', views.curtir),
+                  path('inicio/publicacao/descurtir/<id_publicacao>', views.descurtir),
 
                   path('inicio/publicacao/submit', views.submit_postagem),
                   path('inicio/publicacao_imagem/submit', views.submit_postagem_imagem),
@@ -38,6 +40,9 @@ urlpatterns = [
 
                   path('login/', views.login_user),
     path('login/submit',views.submit_login),
+                  path('chat/<str:room_name>/<nome>', views.room, name='room'),
+                  path('perfil', views.perfil),
+                  path('perfil/<nome>', views.perfil_nome),
 
                   path('',RedirectView.as_view(url='inicio/'))
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

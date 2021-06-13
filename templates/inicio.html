@@ -95,13 +95,7 @@
  <button> ver postagens</button>
  {% include "padrao_fim.html" %}
 
-<p>aaaaaaaaaaaa</p><p>aaaaaaaaaaaa</p>
-<p>aaaaaaaaaaaa</p>
-<p>aaaaaaaaaaaa</p>
-<p>aaaaaaaaaaaa</p>
-<p>aaaaaaaaaaaa</p>
-<p>aaaaaaaaaaaa</p>
-<p>aaaaaaaaaaaa</p>
+<p></p><p></p>
 <p></p>
 <p></p>
 <p></p>
@@ -113,6 +107,12 @@
 <p></p>
 <p></p>
 <p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p>------------------------------------------------------------------------------------</p>
 {% for publicacoes in publicacao %}
      <div class="container" style="background: #fff;;">
 
@@ -124,11 +124,12 @@
          {% endfor %}
          <p></p>
 {{ publicacoes.texto }}
-
+<p></p>
          {% for imagem  in imagens %}
 
-                  {% if imagem.usuario == publicacoes.usuario %}<p></p>
-                  <img width="500" height="500" src="/media/{{ imagem.imagem }}"
+                  {% if imagem.usuario == publicacoes.usuario %}
+                  <img width="500" height="500" src="/media/{{ imagem.imagem }}">
+
 
 
 
@@ -136,11 +137,11 @@
          {% endfor %}
  <p></p>
 
- <img width="60" height="50" src="/static/img/curtida.jpg">{{ publicacoes.curtidas }}
+<a href="/inicio/publicacao/curtir/{{ publicacoes.id }}"> <img width="60" height="50" src="/static/img/curtida.jpg" >{{ publicacoes.curtidas }}
+</a>
+       <a href="/inicio/publicacao/descurtir/{{ publicacoes.id }}">   <img width="60" height="50" src="/static/img/descurtir.jpg">{{ publicacoes.nao_gostei }}
 
-          <img width="60" height="50" src="/static/img/descurtir.jpg">{{ publicacoes.nao_gostei }}
-
-
+</a>
 
  Data do evento:{{ publicacoes.get_data_evento }}
 
@@ -153,6 +154,109 @@
  <p>------------------------------------------------------------------------------------</p>
      </div>
 {% endfor %}
+
+
+<!-- chat/templates/chat/room.html -->
+
+
+    <style>
+#chatdiv{
+position:fixed;
+right: 0;
+bottom: 0;
+}
+
+#buttaochat{
+position:fixed;
+right: 0;
+bottom: 0;
+}
+    </style>
+
+<div id="chatdiv">
+    <textarea id="chat-log" cols="30" rows="30" disabled></textarea><br>
+    <input id="chat-message-input" type="text" size="30"><br>
+    <input id="chat-message-submit" type="button" value="Envie">
+    <button onclick="tirarChat()">Esconder</button>
+    </div>
+<div id="buttaochat">
+    <button onclick="mostrarChat()">Mostrar</button>
+</div>
+    {{ room_name|json_script:"room-name" }}
+    <script>
+        const roomName = JSON.parse(document.getElementById('room-name').textContent);
+
+        const chatSocket = new WebSocket(
+            'ws://'
+            + window.location.host
+            + '/ws/'
+            + roomName
+            + '/'
+        );
+
+        chatSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            document.querySelector('#chat-log').value += (data.message + '\n');
+        };
+
+        chatSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+
+        document.querySelector('#chat-message-input').focus();
+        document.querySelector('#chat-message-input').onkeyup = function(e) {
+            if (e.keyCode === 13) {  // enter, return
+                document.querySelector('#chat-message-submit').click();
+            }
+        };
+
+        document.querySelector('#chat-message-submit').onclick = function(e) {
+            const messageInputDom = document.querySelector('#chat-message-input');
+            const message = messageInputDom.value;
+            chatSocket.send(JSON.stringify({
+                'message': message
+            }));
+            messageInputDom.value = '';
+        };
+    </script>
+
+
+
+<script>
+    function mostrarChat() {
+      var x = document.getElementById("chatdiv");
+
+      var a = document.getElementById("buttaochat");
+
+        x.style.display = "block";
+        a.style.display = "none";
+
+
+
+    }
+
+
+     function tirarChat() {
+      var x = document.getElementById("chatdiv");
+
+      var a = document.getElementById("buttaochat");
+
+        x.style.display = "none";
+        a.style.display = "block";
+
+
+
+    }
+
+
+  window.onload = initPage;
+
+function initPage(){
+  var y = document.getElementById("chatdiv");
+y.style.display = "none";
+}
+
+</script>
 
 </body>
 </html>

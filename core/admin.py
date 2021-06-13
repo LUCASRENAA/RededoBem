@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from core.models import Publicacao
-from core.models import Imagens_publicacao,tipoConta,Perfil
+from core.models import Imagens_publicacao,tipoConta,Perfil,Conquista,Conquista_Usuario
 
 
 
@@ -11,7 +11,9 @@ admin.site.register(tipoConta)
 admin.site.register(Perfil)
 
 
+admin.site.register(Conquista)
 
+admin.site.register(Conquista_Usuario)
 
 
 

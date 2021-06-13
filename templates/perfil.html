@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Perfil</title>
+</head>
+<body>
+<div id="perfil">
+    <form action="/inicio/perfil/submit" method="POST"  enctype="multipart/form-data"> {% csrf_token %}
+
+   {{ nome }}
+    <p></p>
+    <img src="{{ foto }}" width="50" height="50">
+                <input   type="file" class="form-control-file"  name="imagem" id="imagem">
+
+<p><button type ="/inicio/perfil/submit">alterar foto de perfil</button></p>
+    </form>
+</div>
+{% for conquista in conquistas %}
+{{ conquista.conquista.texto }}
+<p></p>
+<img width="100" height="100" src="/media/{{ conquista.conquista.imagem }}"
+<p></p>
+{% endfor %}
+</body>
+</html>

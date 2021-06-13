@@ -11,7 +11,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.db import models
 from datetime import  datetime, timezone, timedelta
-from core.models import Publicacao, Imagens_publicacao,tipoConta,Perfil
+from core.models import Publicacao, Imagens_publicacao,tipoConta,Perfil,Conquista,Conquista_Usuario,Curtida
 
 import time
 
@@ -55,12 +55,16 @@ def submit_login(request):
 def submit_registro(request):
     print(request.POST)
     if request.POST:
-        senha = request.POST.get('password')
+        senha = request.POST.get('senha')
         usuario = request.POST.get ( 'username' )
         email =   request.POST.get ( 'email' )
+        print(senha)
+        print(usuario)
+        print(email)
         try:
             print("e aqui?")
             user = User.objects.create_user ( str(usuario), str(email) ,  str(senha) )
+
             tipo = tipoConta.objects.create(usuario = user,tipo=0)
 
 
@@ -68,8 +72,9 @@ def submit_registro(request):
 
 
         except:
+
             User.objects.get(username = usuario)
-            User.objects.get(email = email)
+
 
 
             return HttpResponse('<h1> Usuario já cadastrado </h1>')
@@ -191,3 +196,110 @@ def submit_perfil(request):
             Perfil.objects.create(usuario = User.objects.get(username = request.user),imagem = arquivo)
 
         return redirect('/inicio')
+
+def room(request, room_name,nome):
+    lista = []
+    lista.append(room_name)
+    lista.append(nome)
+    if str(room_name) == str(request.user):
+        return render(request, 'room.html', {
+            'room_name': room_name + str(nome) ,
+            'username': str(request.user)
+        })
+    if str(nome) == str(request.user):
+        return render(request, 'room.html', {
+            'room_name': room_name + str(nome) ,
+            'username': str(request.user)
+
+        })
+
+@login_required(login_url='/login/')
+def perfil(request):
+    try:
+        perfil = Perfil.objects.get(usuario=User.objects.get(username=request.user))
+        dados = {"nome": request.user,
+                 "foto": "/media/" + str(perfil.imagem),
+                 "publicacao": Publicacao.objects.all(),
+                 "fotos": Perfil.objects.all(),
+                 "imagens": Imagens_publicacao.objects.all()
+                 }
+    except:
+        dados = {"nome":request.user,
+             "foto":"/static/img/perfil.jpg"}
+
+    return render(request,'perfil.html',dados)
+
+
+
+def perfil_nome(request,nome):
+    try:
+        perfil = Perfil.objects.get(usuario=User.objects.get(username=nome))
+        dados = {"nome": nome,
+                 "foto": "/media/" + str(perfil.imagem),
+                 "publicacao": Publicacao.objects.all(),
+                 "fotos": Perfil.objects.all(),
+                 "imagens": Imagens_publicacao.objects.all(),
+                 "conquistas": Conquista_Usuario.objects.all()
+                 }
+    except:
+        dados = {"nome":nome,
+             "foto":"/static/img/perfil.jpg"}
+
+    return render(request,'perfil.html',dados)
+
+@login_required ( login_url = '/login/' )
+def curtir(request, id_publicacao):
+
+                conversa = Publicacao.objects.get ( id = id_publicacao )
+                usuario = request.user
+
+
+                try:
+                    curtida = Curtida.objects.get ( usuario = usuario,
+                                                 publicacao = conversa
+                                                 )
+                    if int(curtida.gostou) == 2:
+                        conversa.curtidas = conversa.curtidas + 1
+                        conversa.nao_gostei = conversa.nao_gostei - 1
+                        curtida.gostou = 1
+                        curtida.save()
+                        conversa.save()
+                    return redirect('/inicio')
+                except:
+                        conversa.curtidas = conversa.curtidas + 1
+                        conversa.save ()
+                        Curtida.objects.create(usuario = usuario,
+                                               publicacao=conversa,
+                        gostou = 1)
+
+
+                        return redirect ( '/inicio' )
+@login_required ( login_url = '/login/' )
+def descurtir(request, id_publicacao):
+                conversa = Publicacao.objects.get(id=id_publicacao)
+                usuario = request.user
+
+
+
+                try:
+                    curtida = Curtida.objects.get(usuario=usuario,
+                                                  publicacao=conversa
+                                                  )
+                    if int ( curtida.gostou ) == 1:
+                        conversa.curtidas = conversa.curtidas - 1
+                        curtida.gostou = 2
+                        curtida.save ()
+                        conversa.nao_gostei = conversa.nao_gostei + 1
+                        conversa.save()
+
+
+                    return redirect('/inicio')
+                except:
+                        conversa.nao_gostei = conversa.nao_gostei + 1
+                        conversa.curtidas = conversa.curtidas  - 1
+                        conversa.save ()
+                        Curtida.objects.create(usuario = usuario,
+                                               publicacao = conversa,
+                                               gostou = 2)
+
+                        return redirect ( '/inicio' )
