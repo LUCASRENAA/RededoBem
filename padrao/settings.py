@@ -25,7 +25,7 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'x!q1=bxr9s%#@b4$lcvkzm531wf-ib+02u)hm8uqv4$awe81z@'
+SECRET_KEY = 'senhasecreta'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -140,6 +140,15 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+
+MEDIA_ROOT = (
+  os.path.join(BASE_DIR, 'media') #pasta media para abrigar os arquivos dos usuários
+)
+
+
+MEDIA_URL = '/media/'
+
 import django_heroku
 django_heroku.settings  (locals())
 

@@ -1,0 +1,16 @@
+.bg-gradient-primary {
+  background-color: #000080;
+  background-image: linear-gradient(180deg,#6a1b9a 10%,#6a1b9a);
+  background-size: cover;
+}
+
+.bg-white {
+  background-color: #8e24aa!important;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -.75rem;
+  margin-left: -.75rem;
+}

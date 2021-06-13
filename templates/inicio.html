@@ -27,8 +27,132 @@
 <body>
 
  {% include "padrao_inicio.html" %}
+
+ <style>
+     #perfil{
+     position: fixed;
+     }
+ </style>
+<div id="perfil">
+    <form action="/inicio/perfil/submit" method="POST"  enctype="multipart/form-data"> {% csrf_token %}
+
+   {{ nome }}
+    <p></p>
+    <img src="{{ foto }}" width="50" height="50">
+                <input   type="file" class="form-control-file"  name="imagem" id="imagem">
+
+<p><button type ="/inicio/perfil/submit">alterar foto de perfil</button></p>
+    </form>
+</div>
+
+<form action="/inicio/publicacao/submit" method="POST"  enctype="multipart/form-data"> {% csrf_token %}
+    <div class="container" style="background: #fff;;">
+                            <div class="container-fluid quem-somos text-center margin">
+
+    <h2>Adicionar Postagens</h2>
+    <label>Publicação</label> <p></p> <i><label id="alterando"></label></i>
+                            </div>
+        <textarea  class="btn-block"type="text" name="publicacao"></textarea>
+ <label>Data</label>
+
+                                        <input type="datetime-local" name="data_evento">
+    <button class="btn btn-info btn-lg  btn-rounded btn-block text-uppercase waves-effect waves-light" style="color: black;background: #fff;" type ="/inicio/postagens/submit">Salvar</button>
+</div>
+
+
+</form>
+
+
+
+
+
+
+
+
+
+
+<form action="/inicio/publicacao_imagem/submit" method="POST"  enctype="multipart/form-data"> {% csrf_token %}
+    <div class="container" style="background: #fff;;">
+                            <div class="container-fluid quem-somos text-center margin">
+
+    <h2>Adicionar Imagens</h2>
+    <label>texto</label> <p></p>
+                            </div>
+        <textarea  class="btn-block"type="text" name="publicacao"></textarea>
+ <label>Arquivo</label>
+            <input   type="file" class="form-control-file" id="exampleFormControlFile1" name="file" id="file">
+    <label>ID</label> <p></p>
+        <input name="id">
+
+    <button class="btn btn-info btn-lg  btn-rounded btn-block text-uppercase waves-effect waves-light" style="color: black;background: #fff;" type ="/inicio/postagens/submit">Salvar</button>
+</div>
+
+
+</form>
+
+
+ <button> criar postagens</button>
+ <button> ver postagens</button>
  {% include "padrao_fim.html" %}
 
+<p>aaaaaaaaaaaa</p><p>aaaaaaaaaaaa</p>
+<p>aaaaaaaaaaaa</p>
+<p>aaaaaaaaaaaa</p>
+<p>aaaaaaaaaaaa</p>
+<p>aaaaaaaaaaaa</p>
+<p>aaaaaaaaaaaa</p>
+<p>aaaaaaaaaaaa</p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+{% for publicacoes in publicacao %}
+     <div class="container" style="background: #fff;;">
+
+
+         {% for imagens  in fotos %}
+         {% if imagens.usuario == publicacoes.usuario %}
+         <img width="50" height="50" src="/media/{{ imagens.imagem }}" <p>{{ publicacoes.usuario }}</p>
+         {% endif %}
+         {% endfor %}
+         <p></p>
+{{ publicacoes.texto }}
+
+         {% for imagem  in imagens %}
+
+                  {% if imagem.usuario == publicacoes.usuario %}<p></p>
+                  <img width="500" height="500" src="/media/{{ imagem.imagem }}"
+
+
+
+         {% endif %}
+         {% endfor %}
+ <p></p>
+
+ <img width="60" height="50" src="/static/img/curtida.jpg">{{ publicacoes.curtidas }}
+
+          <img width="60" height="50" src="/static/img/descurtir.jpg">{{ publicacoes.nao_gostei }}
+
+
+
+ Data do evento:{{ publicacoes.get_data_evento }}
+
+<p></p>
+  Pessoas que pretendem ir: {{ publicacoes.pretende_ir }}
+ <p></p>
+ Pessoas confirmadas: {{ publicacoes.confirmados }}
+ <p></p>
+
+ <p>------------------------------------------------------------------------------------</p>
+     </div>
+{% endfor %}
 
 </body>
 </html>

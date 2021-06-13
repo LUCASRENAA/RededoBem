@@ -27,10 +27,17 @@ urlpatterns = [
                   path('registro/submit', views.submit_registro),
 
                   path('inicio/',views.inicio),
+                  path('inicio2/', views.inicio2),
+                  path('inicio/perfil/submit', views.submit_perfil),
+
+                  path('inicio/publicacao/submit', views.submit_postagem),
+                  path('inicio/publicacao_imagem/submit', views.submit_postagem_imagem),
+                  path('postagens', views.verPostagens),
+                  path('postagensImagens', views.verPostagensImagens),
 
 
                   path('login/', views.login_user),
     path('login/submit',views.submit_login),
 
                   path('',RedirectView.as_view(url='inicio/'))
-]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

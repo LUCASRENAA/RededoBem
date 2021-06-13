@@ -1,35 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<html>
 
-    {% include "cabeca.html" %}
-        {% include "padrao_inicio.html" %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Login</title>
+        <link rel="shortcut icon" href="/static/img/nanerlogo.png" >
+
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alike">
+    <link rel="stylesheet" href="/static/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/static/css/Community-ChatComments.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="/static/css/Login-Form-Clean.css">
+    <link rel="stylesheet" href="/static/css/Login-Form-Dark.css">
+    <link rel="stylesheet" href="/static/css/Pretty-Search-Form.css">
+    <link rel="stylesheet" href="/static/css/style2.css">
 </head>
 
-    <h1>login</h1>
-    <form action ="submit" method="post">{% csrf_token %}
-        <div align="center">
-        <Label>Usuário:</Label>
-        <input type="text" name="username">
-        <label>Password:</label>
-        <input type="password" name="password">
+<body class="bg-gradient-primary" style="background: #000080;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-9 col-lg-12 col-xl-10">
+                <div class="card shadow-lg o-hidden border-0 my-5" style="border-radius: 20px;">
+                    <div class="card-body p-0">
+                        <div class="row" style="filter: blur(0px);">
+                            <div class="col-lg-6 d-none d-lg-flex flex-column order-1 justify-content-xl-center" style="padding-left: 0px;padding-right: 0px;background-image: url(https://cdn.pixabay.com/photo/2018/03/15/11/11/tree-3227869_960_720.jpg);">
+                                <div class="d-lg-flex d-xl-flex flex-column flex-grow-1 justify-content-lg-center align-items-lg-center justify-content-xl-center align-items-xl-center bg-login-image" style="opacity: 0.70;background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(142,36,170,1) 66%, rgb(192,89,210) 100%);">
+                                    <p class="text-center" style="filter: brightness(200%) contrast(200%);color: rgb(255,255,255);font-size: 30px;width: 300px;">Estamos ansioso para sua presença!</p><button class="btn btn-primary" type="button" style="background-color: rgb(0,0,80);color: rgb(f,f,f);width: 250px;border-radius: 30px;height: 50px;font-size: 25px;"><strong>Crie uma conta</strong></button></div>
+                            </div>
+                            <div class="col-lg-6" style="background-color: #f3e5f5;">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h4 class="text-dark mb-4">Crie <strong>sua conta</strong> </h4>
+                                    </div>
+                                    <form class="user" action ="submit" method="post">{% csrf_token %}
+                                        <div class="form-group"><input type="email" class="form-control form-control-user" id="exampleInputEmail2" placeholder="Insira seu email" name="email"></div>
 
+                                        <div class="form-group"><input class="form-control form-control-user" id="exampleInputEmail" placeholder="Insira seu usuário" name="username"></div>
+                                        <div class="form-group"><input class="form-control form-control-user" type="password" id="exampleInputPassword" placeholder="Insira a sua senha" name="senha"></div>
+                                        <div class="form-group"><input class="form-control form-control-user" type="password" id="exampleInputPassword2" placeholder="Insira a sua senha igual a senha anterior" name="senha_confirmar"></div>
+                                        <div class="form-group">
+                                            <div class="custom-control custom-checkbox small">
+                                                <div class="form-check"><input class="form-check-input custom-control-input" type="checkbox" id="formCheck-1"><label class="form-check-label custom-control-label" for="formCheck-1">Lembrar</label></div>
+                                            </div>
+                                        </div><button class="btn btn-primary btn-block text-white btn-user" data-bs-hover-animate="pulse" type="submit" style="background-color: #000080;">Registre</button>
+                                        <div></div>
+                                        <hr>
 
+                                        <hr>
+                                    </form>
+                                    <div class="text-center"><a class="small" href="/login">Se já tiver uma conta, volte pro login</a></div>
 
-        <button type="submit">Entrar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </form>
-    {% for message in messages %}
-    <div align="center">
-    <strong>Erro</strong>{{ message }}
-        </div>
-
-    {% endfor %}
-
+    </div>
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/js/bs-init.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
+    <script src="/static/js/theme.js"></script>
 </body>
-
-
 
 </html>
