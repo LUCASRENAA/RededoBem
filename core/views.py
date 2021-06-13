@@ -258,6 +258,20 @@ def curtir(request, id_publicacao):
                     curtida = Curtida.objects.get ( usuario = usuario,
                                                  publicacao = conversa
                                                  )
+                    validar = 0
+                    if int(curtida.gostou) == 1:
+                        conversa.curtidas = conversa.curtidas - 1
+                        curtida.gostou = 3
+                        curtida.save()
+                        conversa.save()
+                        validar = 1
+                    if int(curtida.gostou) == 3:
+                        if validar != 1:
+                            conversa.curtidas = conversa.curtidas + 1
+                            conversa.save()
+                            curtida.gostou = 1
+                            curtida.save()
+
                     if int(curtida.gostou) == 2:
                         conversa.curtidas = conversa.curtidas + 1
                         conversa.nao_gostei = conversa.nao_gostei - 1
@@ -285,18 +299,34 @@ def descurtir(request, id_publicacao):
                     curtida = Curtida.objects.get(usuario=usuario,
                                                   publicacao=conversa
                                                   )
+                    print("curtida")
+                    print(curtida.gostou)
+                    validar = 0
+                    if int(curtida.gostou) == 3:
+                        conversa.nao_gostei = conversa.nao_gostei + 1
+                        conversa.save()
+                        curtida.gostou = 2
+                        curtida.save()
+                        validar = 1
+                    if int(curtida.gostou) == 2:
+                        if validar != 1:
+                            curtida.gostou = 3
+                            curtida.save()
+                            conversa.nao_gostei = conversa.nao_gostei - 1
+                            conversa.save()
+
                     if int ( curtida.gostou ) == 1:
                         conversa.curtidas = conversa.curtidas - 1
                         curtida.gostou = 2
-                        curtida.save ()
+                        curtida.save()
                         conversa.nao_gostei = conversa.nao_gostei + 1
                         conversa.save()
+
 
 
                     return redirect('/inicio')
                 except:
                         conversa.nao_gostei = conversa.nao_gostei + 1
-                        conversa.curtidas = conversa.curtidas  - 1
                         conversa.save ()
                         Curtida.objects.create(usuario = usuario,
                                                publicacao = conversa,
