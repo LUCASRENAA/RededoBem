@@ -1,0 +1,42 @@
+{% for publicacoes in publicacao %}
+     <div class="container" style="background: #fff;;">
+
+
+         {% for imagens  in fotos %}
+         {% if imagens.usuario == publicacoes.usuario %}
+         <img width="50" height="50" src="/media/{{ imagens.imagem }}" class="rounded-circle">{{ publicacoes.usuario }}
+         {% endif %}
+         {% endfor %}
+         <p></p>
+         <p>Descrição: {{ publicacoes.texto }}</p>
+
+<p></p>
+         {% for imagem  in imagens %}
+
+                  {% if imagem.publicacao.id == publicacoes.id %}
+
+
+                  <img width="500" height="500" src="/media/{{ imagem.imagem }}">
+
+
+
+
+         {% endif %}
+         {% endfor %}
+ <p></p>
+
+<a href="/inicio/publicacao/curtir/{{ publicacoes.id }}"> <img width="60" height="50" src="/static/img/curtida.jpg" >{{ publicacoes.curtidas }}
+</a>
+       <a href="/inicio/publicacao/descurtir/{{ publicacoes.id }}">   <img width="60" height="50" src="/static/img/descurtir.jpg">{{ publicacoes.nao_gostei }}
+
+</a>
+
+ Data do evento:{{ publicacoes.get_data_evento }}
+
+<p></p>
+  Pessoas que pretendem ir: {{ publicacoes.pretende_ir }}
+ <p></p>
+ Pessoas confirmadas: {{ publicacoes.confirmados }}
+ <p></p>
+          </div>
+{% endfor %}

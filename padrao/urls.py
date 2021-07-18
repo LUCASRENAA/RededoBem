@@ -27,7 +27,9 @@ urlpatterns = [
                   path('registro/submit', views.submit_registro),
 
                   path('inicio/',views.inicio),
-                  path('inicio2/', views.inicio2),
+                  path('conquista/', views.conquista),
+                  path('home/', views.home),
+
                   path('inicio/perfil/submit', views.submit_perfil),
                   path('inicio/publicacao/curtir/<id_publicacao>', views.curtir),
                   path('inicio/publicacao/descurtir/<id_publicacao>', views.descurtir),

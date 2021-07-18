@@ -96,13 +96,60 @@ def inicio(request):
                  "imagens": Imagens_publicacao.objects.all()
                  }
     except:
-        dados = {"nome":request.user,
-             "foto":"/static/img/perfil.jpg"}
+        dados = {"nome": request.user,
+                 "fotos": Perfil.objects.all(),
+                 "publicacao": Publicacao.objects.all(),
+                 "foto": "/static/img/perfil.jpg",
+                 "imagens": Imagens_publicacao.objects.all()
+                 }
     return render(request,'inicio.html',dados)
 
 @login_required(login_url='/login/')
-def inicio2(request):
-    return render(request,'inicio2.html')
+def conquista(request):
+    try:
+        perfil = Perfil.objects.get(usuario=User.objects.get(username=request.user))
+        dados = {"nome": request.user,
+                 "foto": "/media/" + str(perfil.imagem),
+                 "publicacao": Publicacao.objects.all(),
+                 "fotos": Perfil.objects.all(),
+                 "imagens": Imagens_publicacao.objects.all(),
+                 "conquistas": Conquista_Usuario.objects.all()
+
+                 }
+    except:
+
+
+        dados = {"nome": request.user,
+                 "fotos": Perfil.objects.all(),
+                 "publicacao": Publicacao.objects.all(),
+                 "foto":"/static/img/perfil.jpg",
+                 "imagens": Imagens_publicacao.objects.all(),
+                 "conquistas": Conquista_Usuario.objects.all()
+
+                 }
+    return render(request,'conquista.html',dados)
+
+
+@login_required(login_url='/login/')
+def home(request):
+    try:
+        perfil = Perfil.objects.get(usuario=User.objects.get(username=request.user))
+        dados = {"nome": request.user,
+                 "foto": "/media/" + str(perfil.imagem),
+                 "publicacao": Publicacao.objects.all(),
+                 "fotos": Perfil.objects.all(),
+                 "imagens": Imagens_publicacao.objects.all()
+                 }
+    except:
+
+
+        dados = {"nome": request.user,
+                 "fotos": Perfil.objects.all(),
+                 "publicacao": Publicacao.objects.all(),
+                 "foto":"/static/img/perfil.jpg",
+                 "imagens": Imagens_publicacao.objects.all()
+                 }
+    return render(request,'home.html',dados)
 
 @login_required(login_url='/login/')
 def submit_postagem(request):
@@ -228,6 +275,8 @@ def perfil(request):
              "foto":"/static/img/perfil.jpg"}
 
     return render(request,'perfil.html',dados)
+
+
 
 
 
