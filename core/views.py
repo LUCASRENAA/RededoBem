@@ -11,7 +11,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.db import models
 from datetime import  datetime, timezone, timedelta
-from core.models import Publicacao, Imagens_publicacao,tipoConta,Perfil,Conquista,Conquista_Usuario,Curtida
+from core.models import Publicacao, Imagens_publicacao, tipoConta, Perfil, Conquista, Conquista_Usuario, Curtida, \
+    Sugestao, Reportar
 
 import time
 
@@ -382,3 +383,65 @@ def descurtir(request, id_publicacao):
                                                gostou = 2)
 
                         return redirect ( '/inicio' )
+
+
+
+def reportar(request):
+    usuario = request.user
+    dados = Reportar.objects.filter(usuario=User.objects.get(username=usuario))
+
+    try:
+        perfil = Perfil.objects.get(usuario=User.objects.get(username=request.user))
+        dados = {"nome": request.user,
+                 "foto": "/media/" + str(perfil.imagem),
+                 "publicacao": Publicacao.objects.all(),
+                 "fotos": Perfil.objects.all(),
+                 "imagens": Imagens_publicacao.objects.all(),
+                 "reportados": dados
+                 }
+    except:
+        dados = {"nome": request.user,
+                 "fotos": Perfil.objects.all(),
+                 "publicacao": Publicacao.objects.all(),
+                 "foto": "/static/img/perfil.jpg",
+                 "imagens": Imagens_publicacao.objects.all(),
+                 "reportados": dados
+                 }
+
+    return render(request, "reclamacao.html", dados)
+
+
+def sugestao(request):
+    usuario = request.user
+    dados = Sugestao.objects.filter(usuario = User.objects.get(username = usuario))
+    dados = {"sugestoes":dados}
+    return render(request, "sugestao.html",dados)
+
+
+
+def sugestao_submit(request):
+    if request.POST:
+        usuario = request.user
+        titulo = request.POST.get('titulo')
+        texto = request.POST.get('publicacao')
+
+        print(titulo)
+        print(texto)
+        Sugestao.objects.create(titulo = titulo, texto=texto, usuario=    User.objects.get(username = usuario))
+
+
+    return redirect('/sugestao')
+
+def reportar_submit(request):
+    if request.POST:
+        usuario = request.user
+        titulo = request.POST.get('titulo')
+        texto = request.POST.get('publicacao')
+
+
+        print(titulo)
+        print(texto)
+        Reportar.objects.create(titulo = titulo, texto=texto, usuario=    User.objects.get(username = usuario))
+
+
+    return redirect('/reportar')

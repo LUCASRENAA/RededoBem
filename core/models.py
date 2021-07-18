@@ -86,3 +86,14 @@ class Respostas(models.Model):
     data_criacao = models.DateTimeField(auto_now=True)
     pra_quem     = models.IntegerField()
 
+
+class Sugestao(models.Model):
+    titulo = models.CharField(max_length=50)
+    texto = models.CharField(max_length=1000)
+    usuario = models.ForeignKey(User, models.CASCADE)
+
+
+class Reportar(models.Model):
+    titulo = models.CharField(max_length=50)
+    texto = models.CharField(max_length=1000)
+    usuario = models.ForeignKey(User, models.CASCADE)

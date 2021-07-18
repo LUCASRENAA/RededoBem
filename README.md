@@ -29,6 +29,7 @@ python manage.py runserver
 
 E depois é só se divertir :D, ainda estamos atualizando algumas coisinhas
 
+
 - [x] Login básico
 - [x] Registro básico
 - [x] Chat online funcionar brevemente
@@ -37,9 +38,13 @@ E depois é só se divertir :D, ainda estamos atualizando algumas coisinhas
 - [x] Construção dos templates
 - [x] Sistema funcional(Construção dos models,views e dos templates funcional)
 - [ ] Web socket com diversos usuarios na mesma página 
-- [ ] Login com layout melhorado
-- [ ] Registro com layout melhorado
-- [ ] Inicio com layout melhorado
-- [ ] Tela de Conquistas
+- [x] Login com layout melhorado
+- [x] Registro com layout melhorado
+- [x] Inicio com visualização das postagens
+- [ ] Inicio com publicação
+- [x] Tela de Conquistas
+- [x] Tela de Sugestão
+- [x] Tela de Reclamação
 - [ ] Tela para definir as preferencias por eventos;
 - [ ] Tela de feedback e comentários para os eventos.
+

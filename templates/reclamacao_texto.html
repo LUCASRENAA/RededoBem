@@ -1,0 +1,31 @@
+
+<form action="/reportar/submit" method="POST"  enctype="multipart/form-data"> {% csrf_token %}
+    <div class="container" style="background: #fff;;">
+                            <div class="container-fluid quem-somos text-center margin">
+
+    <h2>Adicionar reclamação :(</h2>
+
+                                <label>Titulo da reclamação</label><input name="titulo"><p></p>
+    <label>Reclamação</label>
+                            </div>
+        <textarea  class="btn-block"type="text" name="publicacao"></textarea>
+
+
+
+    <button class="btn btn-info btn-lg  btn-rounded btn-block text-uppercase waves-effect waves-light" style="color: black;background: #fff;" type ="/reportar/submit">Salvar</button>
+</div>
+
+
+</form>
+<p></p>
+
+ <div class="container" style="background: #fff;;">
+     Veja aqui suas sugestões
+
+     {% for reportar in reportados %}
+     <p></p>
+     Titulo: <p>{{ reportar.titulo }}</p>
+     Texto: <p>{{ reportar.texto }}</p>
+<p></p>
+     {% endfor %}
+     </div>

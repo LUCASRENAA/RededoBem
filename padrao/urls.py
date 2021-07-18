@@ -46,5 +46,11 @@ urlpatterns = [
                   path('perfil', views.perfil),
                   path('perfil/<nome>', views.perfil_nome),
 
+                  path('reportar', views.reportar),
+                  path('reportar/submit', views.reportar_submit),
+
+                  path('sugestao', views.sugestao),
+                  path('sugestao/submit', views.sugestao_submit),
+
                   path('',RedirectView.as_view(url='inicio/'))
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

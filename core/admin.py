@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from core.models import Publicacao
+from core.models import Publicacao, Sugestao, Reportar
 from core.models import Imagens_publicacao,tipoConta,Perfil,Conquista,Conquista_Usuario,Curtida
 
 
@@ -15,6 +15,8 @@ admin.site.register(Conquista)
 
 admin.site.register(Conquista_Usuario)
 admin.site.register(Curtida)
+admin.site.register(Sugestao)
+admin.site.register(Reportar)
 
 
 
