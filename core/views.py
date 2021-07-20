@@ -385,11 +385,7 @@ def descurtir(request, id_publicacao):
                         return redirect ( '/inicio' )
 
 
-
-def reportar(request):
-    usuario = request.user
-    dados = Reportar.objects.filter(usuario=User.objects.get(username=usuario))
-
+def Dados(request,dados):
     try:
         perfil = Perfil.objects.get(usuario=User.objects.get(username=request.user))
         dados = {"nome": request.user,
@@ -408,14 +404,25 @@ def reportar(request):
                  "reportados": dados
                  }
 
+
+def reportar(request):
+    usuario = request.user
+    dados = Reportar.objects.filter(usuario=User.objects.get(username=usuario))
+
+    dados = Dados(request,dados)
+
     return render(request, "reclamacao.html", dados)
 
 
 def sugestao(request):
     usuario = request.user
     dados = Sugestao.objects.filter(usuario = User.objects.get(username = usuario))
-    dados = {"sugestoes":dados}
-    return render(request, "sugestao.html",dados)
+    dados2 = Dados(request,dados)
+    try:
+        dados2["sugestoes"] = dados
+    except:
+        pass
+    return render(request, "sugestao.html",dados2)
 
 
 

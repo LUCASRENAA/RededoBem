@@ -1,5 +1,27 @@
+
+ <div class="container" style="background: #f1f1f1;">
+
+<form action="/inicio/publicacao/submit" method="POST"  enctype="multipart/form-data"> {% csrf_token %}
+    <div class="container" style="background: #fff;;">
+                            <div class="container-fluid quem-somos text-center margin">
+
+    <h2>Adicionar Postagens</h2>
+    <label>Publicação</label> <p></p> <i><label id="alterando"></label></i>
+                            </div>
+        <textarea  class="btn-block"type="text" name="publicacao"></textarea>
+ <label>Data</label>
+
+                                        <input type="datetime-local" name="data_evento">
+    <button class="btn btn-info btn-lg  btn-rounded btn-block text-uppercase waves-effect waves-light" style="color: black;background: #fff;" type ="/inicio/postagens/submit">Salvar</button>
+</div>
+
+
+</form>
+ </div>
+ <p></p>
 {% for publicacoes in publicacao %}
      <div class="container" style="background: #fff;;">
+ <h1>Postagens</h1>
 
 
          {% for imagens  in fotos %}
