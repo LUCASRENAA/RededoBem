@@ -1,1 +1,1 @@
-web: gunicorn padrao.wsgi
+web: gunicorn padrao.asgi
