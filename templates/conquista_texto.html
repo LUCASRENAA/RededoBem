@@ -1,12 +1,12 @@
 
 
-          Estas são as conquistas recebidas por {{ nome }}, clique na imagem para receber mais informações
+          Estas são as conquistas recebidas por {{ nome }}, clique na imagem para receber mais informações <p></p>
               <div class="row">
             {% for assunto in conquistas %}
 
                         <div class="col d-flex d-sm-flex d-md-flex d-lg-flex d-xl-flex justify-content-center align-items-center justify-content-sm-center align-items-sm-center justify-content-md-center align-items-md-center justify-content-lg-center align-items-lg-center justify-content-xl-center align-items-xl-center"
                             data-bs-hover-animate="pulse" style="height: 180px;margin: 10px;background-color: #000000;border-radius: 20px;width: 300px;min-width: 180px;"><button type="button" data-toggle="modal" data-target="#exampleModal{{ assunto.id}}">
-<img src="/media/{{ assunto.conquista.imagem }}" style="width: 220px;min-width: 100px;">
+<img src="/media/{{ assunto.conquista.imagem }}" style="width: 150px;min-width: 100px;">
                         </button>
 </div>
  {% if forloop.counter|divisibleby:3 %}

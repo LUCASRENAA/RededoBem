@@ -1,8 +1,14 @@
 
  <div class="container" style="background: #f1f1f1;">
 
-<form action="/inicio/publicacao/submit" method="POST"  enctype="multipart/form-data"> {% csrf_token %}
+
+<form action="/inicio/publicacao_imagem/submit" method="POST"  enctype="multipart/form-data"> {% csrf_token %}
     <div class="container" style="background: #fff;;">
+                            <div class="container-fluid quem-somos text-center margin">
+
+
+
+                                 <div class="container" style="background: #fff;;">
                             <div class="container-fluid quem-somos text-center margin">
 
     <h2>Adicionar Postagens</h2>
@@ -12,11 +18,23 @@
  <label>Data</label>
 
                                         <input type="datetime-local" name="data_evento">
+</div>
+
+
+    <h2>Adicionar Imagens</h2>
+    <label>texto</label> <p></p>
+                            </div>
+        <textarea  class="btn-block"type="text" name="publicacao"></textarea>
+ <label>Arquivo</label>
+            <input   type="file" class="form-control-file" id="exampleFormControlFile1" name="file" id="file">
+
+
     <button class="btn btn-info btn-lg  btn-rounded btn-block text-uppercase waves-effect waves-light" style="color: black;background: #fff;" type ="/inicio/postagens/submit">Salvar</button>
 </div>
 
 
 </form>
+
  </div>
  <p></p>
 {% for publicacoes in publicacao %}
@@ -59,6 +77,16 @@
   Pessoas que pretendem ir: {{ publicacoes.pretende_ir }}
  <p></p>
  Pessoas confirmadas: {{ publicacoes.confirmados }}
- <p></p>
+ <p>'</p>
+         <button>Pretendo ir</button>
+          <p>'</p>
+ <p>'</p>
+ <p>'</p>
+ <p>'</p>
+ <p>'</p>
+ <p>'</p>
+
+
+
           </div>
 {% endfor %}

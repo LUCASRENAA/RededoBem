@@ -15,6 +15,7 @@ class tipoConta(models.Model):
     tipo = models.IntegerField()
 
 
+
 class Publicacao(models.Model):
     texto = models.CharField(max_length=1000)
     curtidas = models.IntegerField()
@@ -70,6 +71,16 @@ class Preferencia_publicacao(models.Model):
 class Perfil(models.Model):
     imagem = models.ImageField(upload_to='static/img')
     usuario =  models.ForeignKey(User,models.CASCADE)
+
+class Perfil_nome(models.Model):
+    nome = models.CharField(max_length=50)
+    sobrenome = models.CharField(max_length=50)
+    data_nascimento = models.DateTimeField()
+    endereco = models.CharField(max_length=50)
+    cartão = models.CharField(max_length=50)
+    usuario =  models.ForeignKey(User,models.CASCADE)
+
+
 
 
 class Curtida(models.Model):

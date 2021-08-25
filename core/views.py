@@ -12,7 +12,7 @@ from django.contrib import messages
 from django.db import models
 from datetime import  datetime, timezone, timedelta
 from core.models import Publicacao, Imagens_publicacao, tipoConta, Perfil, Conquista, Conquista_Usuario, Curtida, \
-    Sugestao, Reportar
+    Sugestao, Reportar,Perfil_nome
 
 import time
 
@@ -22,6 +22,7 @@ import time
 
 # Create your views here
 #from core.models import Produto
+#from RededoBem.core.models import Perfil_nome
 
 
 def login_user(request):
@@ -142,6 +143,7 @@ def home(request):
                  "imagens": Imagens_publicacao.objects.all()
                  }
     except:
+        return redirect('/perfil/'+str(request.user))
 
 
         dados = {"nome": request.user,
@@ -175,9 +177,18 @@ def submit_postagem_imagem(request):
         id =  request.POST.get ( 'id' )
 
         arquivo = request.FILES['file']
+
+        texto = request.POST.get('publicacao')
+        data_evento = request.POST.get('data_evento')
+        a = Publicacao.objects.create(texto=texto,
+                                  curtidas=0, nao_gostei=0, data_evento=data_evento,
+                                  pretende_ir=0, confirmados=0, usuario=User.objects.get(username=request.user),
+                                  tipo=tipoConta.objects.get(usuario=User.objects.get(username=request.user)).tipo)
+
+
         Imagens_publicacao.objects.create(texto =texto,
                                           imagem=arquivo,
-                                          publicacao=Publicacao.objects.get(id=id),
+                                          publicacao=a,
                                usuario = User.objects.get(username = request.user))
 
 
@@ -241,6 +252,24 @@ def submit_perfil(request):
             perfil.imagem = arquivo
             perfil.save()
         except:
+            nome = request.POST.get('nome')
+            sobrenome = request.POST.get('sobrenome')
+            endereco = request.POST.get('endereco')
+            data = request.POST.get('data')
+            cartao = request.POST.get('cartao')
+            arquivo = request.FILES['imagem']
+
+            try:
+                Perfil_nome.objects.get(usuario=User(id=request.user.id))
+            except:
+
+                Perfil_nome.objects.create(nome=nome,
+                                           sobrenome=sobrenome,
+                                           endereco=endereco,
+                                           data_nascimento=data,
+                                           cartão=cartao,
+                                           usuario=User(request.user.id))
+
             Perfil.objects.create(usuario = User.objects.get(username = request.user),imagem = arquivo)
 
         return redirect('/inicio')
@@ -273,7 +302,8 @@ def perfil(request):
                  }
     except:
         dados = {"nome":request.user,
-             "foto":"/static/img/perfil.jpg"}
+             "foto":"/static/img/perfil.jpg",
+                 "atualizar":"1"}
 
     return render(request,'perfil.html',dados)
 
@@ -293,7 +323,8 @@ def perfil_nome(request,nome):
                  }
     except:
         dados = {"nome":nome,
-             "foto":"/static/img/perfil.jpg"}
+             "foto":"/static/img/perfil.jpg",
+                 "atualizar": 1}
 
     return render(request,'perfil.html',dados)
 
@@ -407,9 +438,26 @@ def Dados(request,dados):
 
 def reportar(request):
     usuario = request.user
-    dados = Reportar.objects.filter(usuario=User.objects.get(username=usuario))
 
-    dados = Dados(request,dados)
+    try:
+        perfil = Perfil.objects.get(usuario=User.objects.get(username=request.user))
+        dados = {"nome": request.user,
+                 "foto": "/media/" + str(perfil.imagem),
+                 "publicacao": Publicacao.objects.all(),
+                 "fotos": Perfil.objects.all(),
+                 "imagens": Imagens_publicacao.objects.all()
+                 }
+    except:
+        dados = {"nome": request.user,
+                 "fotos": Perfil.objects.all(),
+                 "publicacao": Publicacao.objects.all(),
+                 "foto": "/static/img/perfil.jpg",
+                 "imagens": Imagens_publicacao.objects.all()
+                 }
+    #dados = Reportar.objects.filter(usuario=User.objects.get(username=usuario))
+
+    #dados = Dados(request,dados)
+
 
     return render(request, "reclamacao.html", dados)
 
@@ -422,7 +470,23 @@ def sugestao(request):
         dados2["sugestoes"] = dados
     except:
         pass
-    return render(request, "sugestao.html",dados2)
+
+    try:
+        perfil = Perfil.objects.get(usuario=User.objects.get(username=request.user))
+        dados = {"nome": request.user,
+                 "foto": "/media/" + str(perfil.imagem),
+                 "publicacao": Publicacao.objects.all(),
+                 "fotos": Perfil.objects.all(),
+                 "imagens": Imagens_publicacao.objects.all()
+                 }
+    except:
+        dados = {"nome": request.user,
+                 "fotos": Perfil.objects.all(),
+                 "publicacao": Publicacao.objects.all(),
+                 "foto": "/static/img/perfil.jpg",
+                 "imagens": Imagens_publicacao.objects.all()
+                 }
+    return render(request, "sugestao.html",dados)
 
 
 
@@ -438,6 +502,38 @@ def sugestao_submit(request):
 
 
     return redirect('/sugestao')
+
+def perfil_nome_submit(request,nome):
+    if request.POST:
+        usuario = request.user
+        titulo = request.POST.get('titulo')
+        texto = request.POST.get('publicacao')
+        nome = request.POST.get('nome')
+        sobrenome = request.POST.get('sobrenome')
+        endereco = request.POST.get('endereco')
+        data =  request.POST.get('data')
+        cartao = request.POST.get('cartao')
+        arquivo = request.FILES['imagem']
+        print(arquivo)
+
+
+        try:
+            Perfil_nome.objects.get(usuario=User(id=request.user.id))
+        except:
+
+            Perfil.objects.create(usuario=User.objects.get(username=request.user), imagem=arquivo)
+            Perfil_nome.objects.create(nome=nome,
+                                       sobrenome = sobrenome,
+                                       endereco = endereco,
+                                       data_nascimento = data,
+                                       cartão = cartao,
+                                       usuario = User(request.user.id))
+
+
+
+    return redirect('/perfil/' + str(request.user))
+
+
 
 def reportar_submit(request):
     if request.POST:

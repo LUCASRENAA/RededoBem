@@ -5,16 +5,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 
 </head>
-<body>
+<body style="background: #000000;">
 
   <script>
-       window.onload = initPage;
 
-function initPage(){
-        {{ nome }}.classList.add("active");
-
-
-}
   </script>
 
 <div id="paginaCursos">
@@ -23,8 +17,10 @@ function initPage(){
         <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion  " style="background-color: #000000;">
             <div class="container-fluid d-flex flex-column p-0" style="background-color: #000000;" >
                 <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
-                    <div class="sidebar-brand-icon rotate-n-15"><img src="/static/img/logo.png" style="width: 40px;"></div>
-                    <div class="sidebar-brand-text mx-3"><span>NANER</span></div>
+                    <div class="sidebar-brand-icon rotate-n-15"><img src="/static/img/logo.jpg" style="width: 40px;"></div>
+                    <div class="sidebar-brand-text mx-3"><span>REDE DO BEM</span></div>
+
+
                 </a>
                 <hr class="sidebar-divider my-0">
                 <ul class="nav navbar-nav text-light" id="accordionSidebar">
@@ -60,14 +56,13 @@ function initPage(){
                 <div class="input-group-append"><button class="btn btn-primary py-0" type="button" style="background-color: rgb(74,20,140);height: 38px;margin-top: 20px;margin-left: -10px;"><i class="fas fa-search"></i></button></div>
             </div>
 
+
         </form>
 
   <a class="nav-link" id="home" onclick="redirectHome()" >Home</a>
 
-              <a class="nav-link" id="novidades" onclick="redirectNovidades()">Novidades</a>
-                            <a class="nav-link" id="cursos" onclick="redirectCursos()">Cursos</a>
+              <a class="nav-link" id="novidades" onclick="redirectNovidades()">Perfil</a>
 
-              <a class="nav-link" href="https://api.whatsapp.com/send?phone=5581989504384&text=Ol%C3%A1%20LUCASRENAA">Whatapp</a>
 
 
 
@@ -180,7 +175,7 @@ Perfil</a><a role="presentation" class="dropdown-item"  data-toggle="modal" data
     {% include "home_texto.html" %}
 
 
-                </div>
+
 
   </div>
                         </div></div>
@@ -218,7 +213,6 @@ Perfil</a><a role="presentation" class="dropdown-item"  data-toggle="modal" data
   <style>
    body {
       position: relative;
-      background: #000000;
    }
 
 .scrollspy-exemplo {

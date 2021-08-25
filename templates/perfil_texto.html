@@ -1,0 +1,89 @@
+
+
+--
+<div id="perfil">
+
+<img src="{{ foto }}" width="50" height="50">
+   {{ nome }}
+<button>Seguir Perfil </button>{{ atualizar }}
+    {% if atualizar == 1 %}
+<p></p>
+    <form action="/inicio/perfil/submit" method="POST"  enctype="multipart/form-data"> {% csrf_token %}
+                <input   type="file" class="form-control-file"  name="imagem" id="imagem">
+
+<p><button type ="/inicio/perfil/submit">alterar foto de perfil</button></p>
+
+
+<p>
+
+
+    <label>nome</label><input name="nome"><p></p>
+        <label>sobrenome</label><input name="sobrenome"><p></p>
+    <label>endereco</label><input name="endereco"><p></p>
+    <label>data nascimento</label><input type="date" name="data"><p></p>
+    <label>cartão</label><input name="cartao"><p></p>
+             <button type="{{ nome }}/submit">salvar</button>
+         </form>
+    {% endif %}
+
+</div>
+{% for conquista in conquistas %}
+
+
+<img width="100" height="100" src="/media/{{ conquista.conquista.imagem }}">
+     {{ conquista.conquista.texto }}
+
+{% endfor %}
+<p></p>
+{% for publicacoes in publicacao %}
+     <div class="container" style="background: #fff;;">
+ <h1>Postagens</h1>
+
+
+         {% for imagens  in fotos %}
+         {% if imagens.usuario == publicacoes.usuario %}
+         <img width="50" height="50" src="/media/{{ imagens.imagem }}" class="rounded-circle">{{ publicacoes.usuario }}
+         {% endif %}
+         {% endfor %}
+         <p></p>
+         <p>Descrição: {{ publicacoes.texto }}</p>
+
+<p></p>
+         {% for imagem  in imagens %}
+
+                  {% if imagem.publicacao.id == publicacoes.id %}
+
+
+                  <img width="500" height="500" src="/media/{{ imagem.imagem }}">
+
+
+
+
+         {% endif %}
+         {% endfor %}
+ <p></p>
+
+<a href="/inicio/publicacao/curtir/{{ publicacoes.id }}"> <img width="60" height="50" src="/static/img/curtida.jpg" >{{ publicacoes.curtidas }}
+</a>
+       <a href="/inicio/publicacao/descurtir/{{ publicacoes.id }}">   <img width="60" height="50" src="/static/img/descurtir.jpg">{{ publicacoes.nao_gostei }}
+
+</a>
+
+ Data do evento:{{ publicacoes.get_data_evento }}
+
+<p></p>
+  Pessoas que pretendem ir: {{ publicacoes.pretende_ir }}
+ <p></p>
+ Pessoas confirmadas: {{ publicacoes.confirmados }}
+ <p>'</p>
+          <p>'</p>
+ <p>'</p>
+ <p>'</p>
+ <p>'</p>
+ <p>'</p>
+ <p>'</p>
+
+
+
+          </div>
+{% endfor %}
