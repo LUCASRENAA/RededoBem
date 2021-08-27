@@ -32,8 +32,15 @@ class Publicacao(models.Model):
         Administrativa = 2
     tipo = models.IntegerField(choices=tipo.choices)
 
+    class modo(models.IntegerChoices):
+        Presencial = 0
+        NaoPresencial = 1
+    modo = models.IntegerField(choices=modo.choices)
+
     def get_data_evento(self):
         return self.data_evento.strftime('%d/%m/%Y')
+    def get_usuario(self):
+        return str(self.usuario)
     def get_data_criacao(self):
         return self.data_criacao.strftime('%d/%m/%Y')
 class Conquista(models.Model):
@@ -108,3 +115,9 @@ class Reportar(models.Model):
     titulo = models.CharField(max_length=50)
     texto = models.CharField(max_length=1000)
     usuario = models.ForeignKey(User, models.CASCADE)
+
+
+
+class Local(models.Model):
+    publicacao =  models.ForeignKey(Publicacao,models.CASCADE)
+    texto = models.CharField(max_length=1000)

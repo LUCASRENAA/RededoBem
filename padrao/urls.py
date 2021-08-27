@@ -33,7 +33,11 @@ urlpatterns = [
 
                   path('inicio/perfil/submit', views.submit_perfil),
                   path('inicio/publicacao/curtir/<id_publicacao>', views.curtir),
+                  path('inicio/publicacao/pretendoir/<id_publicacao>', views.pretender),
+
                   path('inicio/publicacao/descurtir/<id_publicacao>', views.descurtir),
+                  path('inicio/publicacao/<id_publicacao>', views.editar),
+                  path('inicio/publicacao/<id_publicacao>/submit', views.editarSubmit),
 
                   path('inicio/publicacao/submit', views.submit_postagem),
                   path('inicio/publicacao_imagem/submit', views.submit_postagem_imagem),

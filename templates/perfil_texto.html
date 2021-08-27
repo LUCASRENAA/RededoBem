@@ -1,11 +1,18 @@
 
 
---
-<div id="perfil">
+Este é o perfil de:
 
-<img src="{{ foto }}" width="50" height="50">
+<div id="perfil">
+<div>
+<img src="{{ foto_usuario }}" width="50" height="50">
    {{ nome }}
-<button>Seguir Perfil </button>{{ atualizar }}
+    </div>
+    {% if usuariologado != nome %}
+<button>Seguir Perfil </button>
+
+     <h1>Ações Sociais feitas por: {{ nome }}</h1>
+
+    {% endif %}{{ atualizar }}
     {% if atualizar == 1 %}
 <p></p>
     <form action="/inicio/perfil/submit" method="POST"  enctype="multipart/form-data"> {% csrf_token %}
@@ -36,17 +43,37 @@
 {% endfor %}
 <p></p>
 {% for publicacoes in publicacao %}
+
+{% if publicacoes.get_usuario == nome %}
      <div class="container" style="background: #fff;;">
- <h1>Postagens</h1>
+     <div class="container" style="background: #fff;;">
+     <div class="container" style="background: #fff;;">
+     <div class="container" style="background: #fff;;">
+     <div class="container" style="background: #fff;;">
+     <div class="container" style="background: #fff;;">
+     <div class="container" style="background: #fff;;">
+     <div class="container" style="background: #fff;;">
+     <div class="container" style="background: #fff;;">
+     <div class="container" style="background: #fff;;">
+     <div class="container" style="background: #fff;;">
+     <div class="container" style="background: #fff;;">
+     <div class="container" style="background: #fff;;">
+     <div class="container" style="background: #fff;;">
+     <div class="container" style="background: #fff;;">
+     <div class="container" style="background: #fff;;">
+     <div class="container" style="background: #fff;;">
+     <div class="container" style="background: #fff;;">
+     <div class="container" style="background: #fff;;">
 
 
          {% for imagens  in fotos %}
          {% if imagens.usuario == publicacoes.usuario %}
+         <div align="left" >
          <img width="50" height="50" src="/media/{{ imagens.imagem }}" class="rounded-circle">{{ publicacoes.usuario }}
-         {% endif %}
+      {% endif %}
          {% endfor %}
          <p></p>
-         <p>Descrição: {{ publicacoes.texto }}</p>
+         <p> {{ publicacoes.texto }}</p>
 
 <p></p>
          {% for imagem  in imagens %}
@@ -83,7 +110,36 @@
  <p>'</p>
  <p>'</p>
 
-
+  </div>
 
           </div>
+                   </div>
+
+          </div>
+                </div>
+
+          </div>
+                </div>
+
+          </div>
+                </div>
+
+          </div>
+                </div>
+
+          </div>
+                </div>
+
+          </div>
+                </div>
+
+          </div>
+                </div>
+
+          </div>
+                </div>
+
+          </div>
+
+{% endif %}
 {% endfor %}

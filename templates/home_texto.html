@@ -11,8 +11,8 @@
                                  <div class="container" style="background: #fff;;">
                             <div class="container-fluid quem-somos text-center margin">
 
-    <h2>Adicionar Postagens</h2>
-    <label>Publicação</label> <p></p> <i><label id="alterando"></label></i>
+    <h2>Adicionar Ação social</h2>
+    <label>Ação social</label> <p></p> <i><label id="alterando"></label></i>
                             </div>
         <textarea  class="btn-block"type="text" name="publicacao"></textarea>
  <label>Data</label>
@@ -24,7 +24,7 @@
     <h2>Adicionar Imagens</h2>
     <label>texto</label> <p></p>
                             </div>
-        <textarea  class="btn-block"type="text" name="publicacao"></textarea>
+        <textarea  class="btn-block"type="text" name="descricaoimagem"></textarea>
  <label>Arquivo</label>
             <input   type="file" class="form-control-file" id="exampleFormControlFile1" name="file" id="file">
 
@@ -45,6 +45,13 @@
          {% for imagens  in fotos %}
          {% if imagens.usuario == publicacoes.usuario %}
          <img width="50" height="50" src="/media/{{ imagens.imagem }}" class="rounded-circle">{{ publicacoes.usuario }}
+         {% if publicacoes.tipo == 0 %}
+         ADMIN
+         {% endif %}
+
+         {% if publicacoes.tipo == 1 %}
+         EMPRESA
+         {% endif %}
          {% endif %}
          {% endfor %}
          <p></p>
@@ -52,6 +59,8 @@
 
 <p></p>
          {% for imagem  in imagens %}
+
+
 
                   {% if imagem.publicacao.id == publicacoes.id %}
 
@@ -63,12 +72,21 @@
 
          {% endif %}
          {% endfor %}
+
  <p></p>
 
 <a href="/inicio/publicacao/curtir/{{ publicacoes.id }}"> <img width="60" height="50" src="/static/img/curtida.jpg" >{{ publicacoes.curtidas }}
 </a>
        <a href="/inicio/publicacao/descurtir/{{ publicacoes.id }}">   <img width="60" height="50" src="/static/img/descurtir.jpg">{{ publicacoes.nao_gostei }}
 
+</a>
+
+          <a href="/inicio/publicacao/{{ publicacoes.id }}">
+
+                  {% if publicacoes.usuario == nome %}
+
+              <p>editar</p>
+               {% endif %}
 </a>
 
  Data do evento:{{ publicacoes.get_data_evento }}
@@ -78,8 +96,10 @@
  <p></p>
  Pessoas confirmadas: {{ publicacoes.confirmados }}
  <p>'</p>
-         <button>Pretendo ir</button>
-          <p>'</p>
+
+  <a href="/inicio/publicacao/pretendoir/{{ publicacoes.id }}"> Pretendo ir
+
+</a>          <p>'</p>
  <p>'</p>
  <p>'</p>
  <p>'</p>

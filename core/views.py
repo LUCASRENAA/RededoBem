@@ -178,7 +178,7 @@ def submit_postagem_imagem(request):
 
         arquivo = request.FILES['file']
 
-        texto = request.POST.get('publicacao')
+        descricaoimagem = request.POST.get('publicacao')
         data_evento = request.POST.get('data_evento')
         a = Publicacao.objects.create(texto=texto,
                                   curtidas=0, nao_gostei=0, data_evento=data_evento,
@@ -186,7 +186,7 @@ def submit_postagem_imagem(request):
                                   tipo=tipoConta.objects.get(usuario=User.objects.get(username=request.user)).tipo)
 
 
-        Imagens_publicacao.objects.create(texto =texto,
+        Imagens_publicacao.objects.create(texto =descricaoimagem,
                                           imagem=arquivo,
                                           publicacao=a,
                                usuario = User.objects.get(username = request.user))
@@ -292,39 +292,78 @@ def room(request, room_name,nome):
 
 @login_required(login_url='/login/')
 def perfil(request):
+    """
     try:
         perfil = Perfil.objects.get(usuario=User.objects.get(username=request.user))
         dados = {"nome": request.user,
                  "foto": "/media/" + str(perfil.imagem),
                  "publicacao": Publicacao.objects.all(),
                  "fotos": Perfil.objects.all(),
-                 "imagens": Imagens_publicacao.objects.all()
+                 "imagens": Imagens_publicacao.objects.all(),
+                 "usuariologado": request.user
                  }
     except:
+        try:
+            perfil = Perfil.objects.get(usuario=User.objects.get(username=request.user))
+            perfil = "/media/" + str(perfil.imagem)
+        except:
+            perfil = "/static/img/perfil.jpg"
         dados = {"nome":request.user,
-             "foto":"/static/img/perfil.jpg",
-                 "atualizar":"1"}
+             "foto":perfil,
+                 "atualizar":"1",
+                 "usuariologado": request.user
+                 }
 
     return render(request,'perfil.html',dados)
-
+    """
+    return redirect('/perfil/' + str(request.user))
 
 
 
 
 def perfil_nome(request,nome):
     try:
-        perfil = Perfil.objects.get(usuario=User.objects.get(username=nome))
+        perfil = Perfil.objects.get(usuario=User.objects.get(username=request.user))
+        try:
+            perfil2 = Perfil.objects.get(usuario=User.objects.get(username=nome))
+            perfil2 = "/media/" + str(perfil2.imagem)
+        except:
+            perfil2 = "/static/img/perfil.jpg"
+
+
+
         dados = {"nome": nome,
                  "foto": "/media/" + str(perfil.imagem),
+                 "foto_usuario": str(perfil2),
+
                  "publicacao": Publicacao.objects.all(),
                  "fotos": Perfil.objects.all(),
                  "imagens": Imagens_publicacao.objects.all(),
-                 "conquistas": Conquista_Usuario.objects.all()
+                 "conquistas": Conquista_Usuario.objects.all(),
+                    "usuariologado":request.user
                  }
     except:
+        try:
+            perfil = Perfil.objects.get(usuario=User.objects.get(username=request.user))
+            perfil = "/media/" + str(perfil.imagem)
+        except:
+            perfil = "/static/img/perfil.jpg"
+
+
+        try:
+            perfil2 = Perfil.objects.get(usuario=User.objects.get(username=nome))
+            perfil2 = "/media/" + str(perfil.imagem)
+        except:
+            perfil2 = "/static/img/perfil.jpg"
         dados = {"nome":nome,
-             "foto":"/static/img/perfil.jpg",
-                 "atualizar": 1}
+                 "foto_usuario": "/media/" + str(perfil2.imagem),
+
+                 "foto":perfil,
+                 "atualizar": 1,
+                 "usuariologado": request.user,
+                 "fotover":perfil2
+
+                 }
 
     return render(request,'perfil.html',dados)
 
@@ -369,6 +408,55 @@ def curtir(request, id_publicacao):
 
 
                         return redirect ( '/inicio' )
+
+
+@login_required(login_url='/login/')
+def pretender(request, id_publicacao):
+
+    return redirect('/inicio')
+"""
+@login_required ( login_url = '/login/' )
+def pretender(request, id_publicacao):
+
+                conversa = Publicacao.objects.get ( id = id_publicacao )
+                usuario = request.user
+
+
+                try:
+                    curtida = Curtida.objects.get ( usuario = usuario,
+                                                 publicacao = conversa
+                                                 )
+                    validar = 0
+                    if int(curtida.gostou) == 1:
+                        conversa.curtidas = conversa.curtidas - 1
+                        curtida.gostou = 3
+                        curtida.save()
+                        conversa.save()
+                        validar = 1
+                    if int(curtida.gostou) == 3:
+                        if validar != 1:
+                            conversa.curtidas = conversa.curtidas + 1
+                            conversa.save()
+                            curtida.gostou = 1
+                            curtida.save()
+
+                    if int(curtida.gostou) == 2:
+                        conversa.curtidas = conversa.curtidas + 1
+                        conversa.nao_gostei = conversa.nao_gostei - 1
+                        curtida.gostou = 1
+                        curtida.save()
+                        conversa.save()
+                    return redirect('/inicio')
+                except:
+                        conversa.curtidas = conversa.curtidas + 1
+                        conversa.save ()
+                        Curtida.objects.create(usuario = usuario,
+                                               publicacao=conversa,
+                        gostou = 1)
+
+
+                        return redirect ( '/inicio' )
+"""
 @login_required ( login_url = '/login/' )
 def descurtir(request, id_publicacao):
                 conversa = Publicacao.objects.get(id=id_publicacao)
@@ -548,3 +636,40 @@ def reportar_submit(request):
 
 
     return redirect('/reportar')
+@login_required(login_url='/login/')
+def editar(request,id_publicacao):
+    if str(request.user) == str(Publicacao.objects.get(id = id_publicacao).usuario):
+            print("asfsafsafsafsafsa")
+            dados = {"variavel": "publicacao_texto.html",
+                     "publicacao":Publicacao.objects.get(id = id_publicacao),
+                     "id": id_publicacao
+                     }
+
+
+    else:
+        return HttpResponse("não é tua publicação amigão")
+
+    return render(request,"padraotela.html",dados)
+
+@login_required(login_url='/login/')
+def editarSubmit(request,id_publicacao):
+    if str(request.user) == str(Publicacao.objects.get(id = id_publicacao).usuario):
+            print("asfsafsafsafsafsa")
+            texto = request.POST.get('publicacao')
+
+            arquivo = request.FILES['file']
+
+            descricaoimagem = request.POST.get('publicacao')
+            data_evento = request.POST.get('data_evento')
+
+
+            public = Publicacao.objects.get(id=id_publicacao)
+            public.texto = texto
+            public.data_evento = data_evento
+            public.save()
+
+
+    else:
+        return HttpResponse("não é tua publicação amigão")
+
+    return redirect('/')
